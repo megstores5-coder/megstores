@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إضافة منتج | MegStores</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --primary:#0F172A;
+  --accent:#F97316;
+  --light:#F8FAFC;
+}
+
+body{
+  font-family:'Cairo',sans-serif;
+  background:var(--light);
+  padding:40px;
+}
+
+.container{
+  max-width:600px;
+  margin:auto;
+  background:#fff;
+  padding:30px;
+  border-radius:10px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+h2{
+  margin-bottom:20px;
+  color:var(--primary);
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border:1px solid #ddd;
+  border-radius:6px;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:6px;
+  background:var(--accent);
+  color:#fff;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:.9;
+}
+
+.page-header{
+  display:flex;
+  justify-content:flex-start;
+  margin-bottom:20px;
+}
+
+.back-btn{
+  background:var(--primary);
+  border:none;
+  color:#fff;
+  padding:10px 18px;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:bold;
+  transition:0.3s;
+}
+
+.back-btn:hover{
+  background:var(--accent);
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-header">
+  <button onclick="goBack()" class="back-btn">
+    ← رجوع للوحة التحكم
+  </button>
+</div>
+
+<div class="container">
+
+  <h2>إضافة منتج جديد</h2>
+
+  <input type="text" id="name" placeholder="اسم المنتج">
+  <input type="number" id="price" placeholder="السعر">
+  <textarea id="description" placeholder="وصف المنتج"
+    style="width:100%;padding:12px;margin-bottom:15px;border:1px solid #ddd;border-radius:6px;"></textarea>
+  <input type="text" id="image" placeholder="رابط صورة المنتج">
+
+  <button onclick="addProduct()">حفظ المنتج</button>
+
+</div>
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCCFdsyGBaoWc5F7djDH7OP6kX0fLWVJ20",
+    authDomain: "megstores-faad1.firebaseapp.com",
+    projectId: "megstores-faad1",
+    storageBucket: "megstores-faad1.firebasestorage.app",
+    messagingSenderId: "576608083509",
+    appId: "1:576608083509:web:195e58b75446a5caee1b7c",
+    measurementId: "G-GSBML886WV"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+window.addProduct = async function(){
+  const name = document.getElementById("name").value;
+  const price = document.getElementById("price").value;
+  const description = document.getElementById("description").value;
+  const image = document.getElementById("image").value;
+
+  if(!name || !price || !description || !image){
+    alert("اكمل البيانات");
+    return;
+  }
+
+  await addDoc(collection(db, "products"), {
+    name: name,
+    price: price,
+    description: description,
+    image: image
+  });
+
+  alert("تم إضافة المنتج بنجاح 🔥");
+  window.location.href = "dashboard.html";
+}
+
+window.goBack = function(){
+  window.location.href = "dashboard.html";
+}
+
+</script>
+
+</body>
+</html>

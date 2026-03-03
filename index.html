@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MegStores | Industrial Solutions</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+/* ================== ROOT COLORS ================== */
+:root{
+  --primary-color:#0F172A;
+  --accent-color:#F97316;
+  --light-bg:#F8FAFC;
+  --text-color:#334155;
+}
+
+/* ================== GLOBAL ================== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Cairo',sans-serif;
+  background:var(--light-bg);
+  padding-top:80px;
+}
+
+/* ================== NAVBAR ================== */
+.navbar{
+  position:fixed;
+  top:0;
+  width:100%;
+  background:var(--primary-color);
+  padding:18px 8%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:1000;
+}
+
+.logo{
+  color:#fff;
+  font-weight:900;
+  font-size:22px;
+}
+
+.nav-links{
+  list-style:none;
+  display:flex;
+  gap:30px;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#fff;
+  font-weight:600;
+  transition:0.3s;
+}
+
+.nav-links a:hover{
+  color:var(--accent-color);
+}
+
+.nav-btn{
+  background:var(--accent-color);
+  padding:8px 18px;
+  border-radius:4px;
+  font-size:14px;
+}
+
+/* ================== HERO ================== */
+.hero{
+  height:100vh;
+  background:url('https://images.unsplash.com/photo-1581091012184-5c3a4c5d6d6e') center/cover no-repeat;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  position:relative;
+  color:#fff;
+}
+
+.hero::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(15,23,42,0.85);
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:750px;
+  padding:20px;
+}
+
+.hero h1{
+  font-size:45px;
+  margin-bottom:20px;
+  line-height:1.4;
+}
+
+.hero p{
+  font-size:18px;
+  margin-bottom:35px;
+  line-height:1.7;
+}
+
+.hero-buttons{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  padding:12px 30px;
+  border-radius:4px;
+  font-weight:700;
+  text-decoration:none;
+  transition:0.3s;
+}
+
+.btn-primary{
+  background:var(--accent-color);
+  color:#fff;
+}
+
+.btn-secondary{
+  border:2px solid #fff;
+  color:#fff;
+}
+
+.btn:hover{
+  opacity:0.85;
+}
+
+/* ================== RESPONSIVE ================== */
+@media(max-width:768px){
+
+  .nav-links{
+    display:none;
+  }
+
+  .hero h1{
+    font-size:30px;
+  }
+
+}
+
+
+
+
+html{
+  scroll-behavior:smooth;
+}
+/* ================= PRODUCTS ================= */
+
+.products{
+  padding:100px 8%;
+  text-align:center;
+  background:var(--light-bg);
+}
+
+.products-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+}
+
+.product-card{
+  background:#fff;
+  border-radius:8px;
+  overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+  transition:0.3s;
+}
+
+.product-card:hover{
+  transform:translateY(-8px);
+}
+
+.product-card img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+}
+
+.product-card h3{
+  padding:20px;
+  color:var(--primary-color);
+}
+
+.product-btn{
+  display:inline-block;
+  margin-bottom:20px;
+  padding:8px 20px;
+  background:var(--accent-color);
+  color:#fff;
+  text-decoration:none;
+  border-radius:4px;
+  font-size:14px;
+  transition:0.3s;
+}
+
+.product-btn:hover{
+  opacity:0.85;
+}
+
+
+/* ================= WHY US ================= */
+
+.why-us{
+  padding:100px 8%;
+  text-align:center;
+  background:#fff;
+}
+
+.why-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:40px;
+  margin-top:50px;
+}
+
+.why-item{
+  padding:20px;
+}
+
+.why-icon{
+  font-size:40px;
+  margin-bottom:20px;
+  color:var(--accent-color);
+}
+
+.why-item h3{
+  margin-bottom:15px;
+  color:var(--primary-color);
+}
+
+.why-item p{
+  color:var(--text-color);
+  line-height:1.7;
+  font-size:15px;
+}
+
+
+/* ================= QUOTE ================= */
+
+.quote{
+  padding:100px 8%;
+  text-align:center;
+  background:var(--primary-color);
+  color:#fff;
+}
+
+.quote .section-title{
+  color:#fff;
+}
+
+.quote .section-title::after{
+  background:var(--accent-color);
+}
+
+.quote-form{
+  max-width:600px;
+  margin:50px auto 0;
+}
+
+.form-group{
+  margin-bottom:20px;
+}
+
+.quote-form input,
+.quote-form textarea{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:5px;
+  font-family:'Cairo',sans-serif;
+  font-size:14px;
+}
+
+.quote-form textarea{
+  height:120px;
+  resize:none;
+}
+
+.quote-form button{
+  width:100%;
+  margin-top:10px;
+}
+
+
+.section-title{
+  font-size:32px;
+  margin-bottom:15px;
+  color:var(--primary-color);
+  font-weight:800;
+}
+
+.quote-form input:focus,
+.quote-form textarea:focus{
+  outline:none;
+  box-shadow:0 0 0 2px var(--accent-color);
+}
+
+
+/* ================= SERVICES ================= */
+
+.services{
+  padding:100px 8%;
+  text-align:center;
+  background:#fff;
+}
+
+.section-title::after{
+  content:'';
+  display:block;
+  width:60px;
+  height:4px;
+  background:var(--accent-color);
+  margin:10px auto 0;
+}
+
+.section-subtitle{
+  max-width:600px;
+  margin:0 auto 60px;
+  color:var(--text-color);
+  line-height:1.7;
+}
+
+.services-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
+}
+
+.service-card{
+  background:#F1F5F9;
+  padding:40px 25px;
+  border-radius:8px;
+  transition:all 0.3s ease;
+  cursor:pointer;
+}
+
+.service-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+.service-card .icon{
+  font-size:40px;
+  margin-bottom:20px;
+}
+
+.service-card h3{
+  margin-bottom:15px;
+  color:var(--primary-color);
+}
+
+.service-card p{
+  font-size:15px;
+  color:var(--text-color);
+  line-height:1.6;
+}
+
+/* ================= CONTACT ================= */
+
+.contact{
+  padding:100px 8%;
+  text-align:center;
+  background:#fff;
+}
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+  margin-top:50px;
+}
+
+.contact-card{
+  background:#F1F5F9;
+  padding:30px;
+  border-radius:8px;
+  transition:0.3s;
+}
+
+.contact-card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 15px 40px rgba(0,0,0,0.08);
+}
+
+.contact-card h3{
+  margin-bottom:15px;
+  color:var(--primary-color);
+}
+
+.contact-card a{
+  text-decoration:none;
+  color:var(--accent-color);
+  font-weight:700;
+}
+
+.map{
+  margin-top:50px;
+}
+
+
+/* ================= MAP ================= */
+
+.map{
+  margin-top:50px;
+}
+
+.map iframe{
+  border-radius:8px;
+}
+
+
+/* ================= FOOTER ================= */
+
+.footer{
+  background:var(--primary-color);
+  color:#fff;
+  padding:60px 8% 20px;
+}
+
+.footer-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:40px;
+  margin-bottom:40px;
+}
+
+.footer-col h3,
+.footer-col h4{
+  margin-bottom:15px;
+}
+
+.footer-col p,
+.footer-col li{
+  font-size:14px;
+  line-height:1.8;
+}
+
+.footer-col ul{
+  list-style:none;
+  padding:0;
+}
+
+.footer-col a{
+  color:#fff;
+  text-decoration:none;
+  transition:0.3s;
+}
+
+.footer-col a:hover{
+  color:var(--accent-color);
+}
+
+.footer-bottom{
+  text-align:center;
+  padding-top:20px;
+  border-top:1px solid rgba(255,255,255,0.2);
+  font-size:13px;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+  <div class="logo">MegStores</div>
+
+  <ul class="nav-links">
+<li><a href="#">الرئيسية</a></li>
+<li><a href="#products">المنتجات</a></li>
+<li><a href="#services">الخدمات</a></li>
+<li><a href="#about">من نحن</a></li>
+<li><a href="#contact">تواصل معنا</a></li>
+<li><a href="#quote" class="nav-btn">اطلب عرض سعر</a></li>
+  </ul>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>حلول متكاملة لمعامل الخرسانة والأسفلت</h1>
+    <p>
+      تصنيع وتوريد أجهزة الاختبارات الصناعية وصيانة ومعايرة المعدات بأعلى معايير الجودة لدعم مشاريعكم بثقة.
+    </p>
+
+    <div class="hero-buttons">
+     <a href="#quote" class="btn btn-primary">اطلب عرض سعر الآن</a>
+     <a href="#products" class="btn btn-secondary">تصفح المنتجات</a> 
+    </div>
+  </div>
+</section>
+<!-- ================= SERVICES ================= -->
+<section class="services" id="services">
+
+</section>
+<div class="container">
+    <h2 class="section-title">خدماتنا</h2>
+    <p class="section-subtitle">
+      نقدم حلولاً متكاملة لدعم معامل الخرسانة والأسفلت ومشروعات البناء بأعلى جودة.
+    </p>
+
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="icon">🏗</div>
+        <h3>تصنيع أجهزة المعامل</h3>
+        <p>تصنيع وتوريد أجهزة اختبار الخرسانة والأسفلت طبقاً للمواصفات القياسية.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="icon">🔧</div>
+        <h3>الصيانة والمعايرة</h3>
+        <p>خدمات صيانة ومعايرة معتمدة لضمان دقة الأجهزة وكفاءة التشغيل.</p>
+      </div>
+
+      <div class="service-card">
+        <div class="icon">🚧</div>
+        <h3>توريد معدات البناء</h3>
+        <p>توريد أوناش، هزازات، معدات ثقيلة وقطع غيار لمحطات الخرسانة.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+<!-- ================= PRODUCTS ================= -->
+<section class="products" id="products">
+    <div class="container">
+    <h2 class="section-title">أهم منتجاتنا</h2>
+    <p class="section-subtitle">
+      مجموعة من أجهزة اختبار الخرسانة والأسفلت والمعدات الصناعية عالية الجودة.
+    </p>
+
+    <div class="products-grid">
+
+
+
+    </div>
+  </div>
+</section>
+<!-- ================= WHY US ================= -->
+<section class="why-us" id="about">
+    <div class="container">
+    <h2 class="section-title">لماذا تختار MegStores؟</h2>
+    <p class="section-subtitle">
+      نلتزم بتقديم أعلى معايير الجودة والدقة لدعم مشاريعكم بثقة وكفاءة.
+    </p>
+
+    <div class="why-grid">
+
+      <div class="why-item">
+        <div class="why-icon">🏆</div>
+        <h3>جودة مضمونة</h3>
+        <p>منتجات مطابقة للمواصفات القياسية ومعايير الاختبارات الهندسية.</p>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon">⚙️</div>
+        <h3>خبرة في المجال</h3>
+        <p>سنوات من الخبرة في تصنيع وتوريد أجهزة معامل الخرسانة والأسفلت.</p>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon">🚚</div>
+        <h3>توريد سريع</h3>
+        <p>تغطية جميع المحافظات وسرعة في تنفيذ وتسليم الطلبات.</p>
+      </div>
+
+      <div class="why-item">
+        <div class="why-icon">🔧</div>
+        <h3>دعم فني متكامل</h3>
+        <p>خدمة صيانة ومعايرة لضمان أفضل أداء واستمرارية التشغيل.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= REQUEST QUOTE ================= -->
+<section class="quote" id="quote">
+  <div class="container">
+    <h2 class="section-title">اطلب عرض سعر</h2>
+    <p class="section-subtitle">
+      املأ النموذج وسيتواصل معك فريقنا في أسرع وقت.
+    </p>
+
+    <form class="quote-form">
+
+      <div class="form-group">
+        <input type="text" placeholder="الاسم بالكامل" required>
+      </div>
+
+      <div class="form-group">
+        <input type="text" placeholder="اسم الشركة">
+      </div>
+
+      <div class="form-group">
+        <input type="tel" placeholder="رقم الموبايل" required>
+      </div>
+
+      <div class="form-group">
+        <input type="text" placeholder="نوع الجهاز المطلوب">
+      </div>
+
+      <div class="form-group">
+        <textarea placeholder="تفاصيل الطلب"></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary">
+        إرسال الطلب
+      </button>
+
+    </form>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section class="contact" id="contact">
+  <div class="container">
+    <h2 class="section-title">تواصل معنا</h2>
+    <p class="section-subtitle">
+      يسعدنا تواصلكم معنا في أي وقت.
+    </p>
+
+    <div class="contact-grid">
+
+      <div class="contact-card">
+        <h3>📱 الموبايل</h3>
+        <a href="tel:01095720901">01095720901</a>
+      </div>
+
+      <div class="contact-card">
+        <h3>🟢 واتساب</h3>
+        <a href="https://wa.me/201095720901" target="_blank">
+          تواصل عبر واتساب
+        </a>
+      </div>
+
+      <div class="contact-card">
+        <h3>📧 البريد الإلكتروني</h3>
+        <a href="mailto:mazenmahdy505@gmail.com">
+          mazenmahdy505@gmail.com
+        </a>
+      </div>
+
+      <div class="contact-card">
+        <h3>🔵 صفحة الفيسبوك</h3>
+        <a href="https://www.facebook.com/share/17Mnd1wKZh/" target="_blank">
+          زيارة الصفحة
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAP ================= -->
+<section class="map">
+  <h3 style="text-align:center; margin-bottom:10px; color:var(--primary-color)">
+    📍 موقع MegStores – الاسكندرية
+  </h3>
+
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d68349.0987106449!2d29.918224!3d31.220666!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f5c4b0cae94f77%3A0x1718b4ea1b594d4c!2z7Iug7J2YbCB2LHZhNmD2Lkg2KfZhNi02YjYp9mF!5e0!3m2!1sar!2seg!4v1709588250000!5m2!1sar!2seg"
+    width="100%"
+    height="400"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy">
+  </iframe>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+
+  <div class="footer-container">
+
+    <div class="footer-col">
+      <h3>MegStores</h3>
+      <p>
+        حلول متكاملة لمعامل الخرسانة والأسفلت
+        بأعلى معايير الجودة والدقة.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <ul>
+        <li><a href="#">الرئيسية</a></li>
+        <li><a href="#products">المنتجات</a></li>
+        <li><a href="#services">الخدمات</a></li>
+        <li><a href="#contact">تواصل معنا</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h4>بيانات التواصل</h4>
+      <p>📱 01095720901</p>
+      <p>📧 mazenmahdy505@gmail.com</p>
+      <p>📍 الاسكندرية – مصر</p>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    © 2026 MegStores. All Rights Reserved.
+  </div>
+
+</footer>
+
+
+<!-- Firebase + Firestore -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCCFdsyGBaoWc5F7djDH7OP6kX0fLWVJ20",
+    authDomain: "megstores-faad1.firebaseapp.com",
+    projectId: "megstores-faad1",
+    storageBucket: "megstores-faad1.firebasestorage.app",
+    messagingSenderId: "576608083509",
+    appId: "1:576608083509:web:195e58b75446a5caee1b7c",
+    measurementId: "G-GSBML886WV"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  async function loadProducts() {
+    const productsGrid = document.querySelector(".products-grid");
+    productsGrid.innerHTML = "";
+
+    const querySnapshot = await getDocs(collection(db, "products"));
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+
+      const card = `
+        <div class="product-card">
+          <img src="${data.image}" alt="">
+          <h3>${data.name}</h3>
+          <a href="#" class="product-btn">عرض التفاصيل</a>
+        </div>
+      `;
+
+      productsGrid.innerHTML += card;
+    });
+  }
+
+  loadProducts();
+</script>
+
+
+</body>
+
+</html>
