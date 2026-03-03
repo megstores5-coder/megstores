@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
+
+<meta name="description" content="MegStores شركة متخصصة في تصنيع وتوريد أجهزة معامل الخرسانة والأسفلت في مصر مع خدمات صيانة ومعايرة معتمدة.">
+<meta name="keywords" content="أجهزة معامل خرسانة, أجهزة اختبار اسفلت, معدات معامل, صيانة أجهزة معامل">
+<meta name="author" content="MegStores">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MegStores | Industrial Solutions</title>
@@ -472,6 +476,20 @@ html{
   font-size:13px;
 }
 
+
+.product-card,
+.service-card,
+.why-item,
+.contact-card {
+  opacity:0;
+  transform:translateY(30px);
+  transition:all 0.6s ease;
+}
+
+.show {
+  opacity:1;
+  transform:translateY(0);
+}
 </style>
 </head>
 
@@ -507,8 +525,6 @@ html{
 </section>
 <!-- ================= SERVICES ================= -->
 <section class="services" id="services">
-
-</section>
 <div class="container">
     <h2 class="section-title">خدماتنا</h2>
     <p class="section-subtitle">
@@ -599,33 +615,33 @@ html{
       املأ النموذج وسيتواصل معك فريقنا في أسرع وقت.
     </p>
 
-    <form class="quote-form">
+<form class="quote-form" id="quoteForm">
 
-      <div class="form-group">
-        <input type="text" placeholder="الاسم بالكامل" required>
-      </div>
+  <div class="form-group">
+    <input type="text" id="fullName" placeholder="الاسم بالكامل" required>
+  </div>
 
-      <div class="form-group">
-        <input type="text" placeholder="اسم الشركة">
-      </div>
+  <div class="form-group">
+    <input type="text" id="company" placeholder="اسم الشركة">
+  </div>
 
-      <div class="form-group">
-        <input type="tel" placeholder="رقم الموبايل" required>
-      </div>
+  <div class="form-group">
+    <input type="tel" id="phone" placeholder="رقم الموبايل" required>
+  </div>
 
-      <div class="form-group">
-        <input type="text" placeholder="نوع الجهاز المطلوب">
-      </div>
+  <div class="form-group">
+    <input type="text" id="device" placeholder="نوع الجهاز المطلوب">
+  </div>
 
-      <div class="form-group">
-        <textarea placeholder="تفاصيل الطلب"></textarea>
-      </div>
+  <div class="form-group">
+    <textarea id="details" placeholder="تفاصيل الطلب"></textarea>
+  </div>
 
-      <button type="submit" class="btn btn-primary">
-        إرسال الطلب
-      </button>
+  <button type="submit" class="btn btn-primary">
+    إرسال الطلب
+  </button>
 
-    </form>
+</form>
   </div>
 </section>
 
@@ -726,10 +742,19 @@ html{
 
 
 <!-- Firebase + Firestore -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-  import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
+<script type="module">
+ import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+
+import { 
+  getFirestore, 
+  collection, 
+  getDocs, 
+  addDoc, 
+  serverTimestamp 
+} from 
+"https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
   const firebaseConfig = {
     apiKey: "AIzaSyCCFdsyGBaoWc5F7djDH7OP6kX0fLWVJ20",
     authDomain: "megstores-faad1.firebaseapp.com",
@@ -764,9 +789,57 @@ html{
   }
 
   loadProducts();
+
+  const form = document.getElementById("quoteForm");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const fullName = document.getElementById("fullName").value;
+  const company = document.getElementById("company").value;
+  const phone = document.getElementById("phone").value;
+  const device = document.getElementById("device").value;
+  const details = document.getElementById("details").value;
+
+  try {
+    await addDoc(collection(db, "orders"), {
+      fullName,
+      company,
+      phone,
+      device,
+      details,
+      createdAt: serverTimestamp()
+    });
+
+    alert("تم إرسال الطلب بنجاح ✅");
+    form.reset();
+
+  } catch (error) {
+    alert("حصل خطأ ❌");
+    console.error(error);
+  }
+});
 </script>
 
+<script>
+function applyScrollAnimation() {
+  const elements = document.querySelectorAll(
+    ".product-card, .service-card, .why-item, .contact-card"
+  );
+
+  elements.forEach(el => {
+    const position = el.getBoundingClientRect().top;
+    const screen = window.innerHeight;
+
+    if (position < screen - 100) {
+      el.classList.add("show");
+    }
+  });
+}
+
+window.addEventListener("scroll", applyScrollAnimation);
+window.addEventListener("load", applyScrollAnimation);
+</script>
 
 </body>
-
 </html>
