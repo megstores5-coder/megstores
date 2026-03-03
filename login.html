@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول | MegStores</title>
+<style>
+body{
+  font-family: Arial;
+  background:#0F172A;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.box{
+  background:#fff;
+  padding:40px;
+  border-radius:10px;
+  width:300px;
+}
+input{
+  width:100%;
+  padding:10px;
+  margin-bottom:15px;
+}
+button{
+  width:100%;
+  padding:10px;
+  background:#F97316;
+  border:none;
+  color:#fff;
+  cursor:pointer;
+}
+.error{
+  color:red;
+  margin-bottom:10px;
+  font-size:14px;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h3>تسجيل الدخول</h3>
+
+<div class="error" id="error"></div>
+
+<input type="email" id="email" placeholder="البريد الإلكتروني">
+<input type="password" id="password" placeholder="كلمة المرور">
+
+<button onclick="login()">دخول</button>
+</div>
+
+<script>
+const ADMIN_EMAIL = "kimo";
+const ADMIN_PASSWORD = "1122"; // غيرها لكلمة قويةmegstores5@gmail.com
+
+function login(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  if(email === ADMIN_EMAIL && password === ADMIN_PASSWORD){
+    sessionStorage.setItem("isLoggedIn","true");
+    window.location.href = "dashboard.html";
+  }else{
+    document.getElementById("error").innerText = "بيانات غير صحيحة";
+  }
+}
+</script>
+
+</body>
+</html>

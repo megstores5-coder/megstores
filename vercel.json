@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "http://megstores.com/:path*",
+      "destination": "https://megstores.com/:path*",
+      "permanent": true
+    }
+  ]
+}
