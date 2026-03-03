@@ -153,7 +153,7 @@ th{
     <li><a href="#">المنتجات</a></li>
     <li><a href="add-product.html">إضافة منتج</a></li>
     <li><a href="#">الطلبات</a></li>
-    <li><a href="#">تسجيل خروج</a></li>
+    <li><a href="#" onclick="logout()">تسجيل خروج</a></li>
   </ul>
 </div>
 
@@ -162,20 +162,24 @@ th{
 
   <div class="topbar">
     <h1>لوحة التحكم</h1>
+    
     <span>مرحبًا، Admin</span>
   </div>
 
-  <!-- STATS -->
-  <div class="card-grid">
-    <div class="stat-card">
-      <h3>عدد المنتجات</h3>
-      <span id="productCount">0</span>
-    </div>
-    <div class="stat-card">
-      <h3>عدد الطلبات</h3>
-      <span>0</span>
-    </div>
+<!-- STATS -->
+<div class="card-grid">
+
+  <div class="stat-card">
+    <h3>عدد المنتجات</h3>
+    <span id="productCount">0</span>
   </div>
+
+  <div class="stat-card">
+    <h3>عدد الطلبات</h3>
+    <span id="ordersCount">0</span>
+  </div>
+
+</div>
 
   <!-- PRODUCTS TABLE -->
   <div class="table-container">
@@ -196,6 +200,22 @@ th{
     </table>
   </div>
 
+<div class="table-container" style="margin-top:40px;">
+  <h3 style="margin-bottom:20px;">قائمة الطلبات</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>الاسم</th>
+        <th>الشركة</th>
+        <th>الموبايل</th>
+        <th>الجهاز</th>
+        <th>التاريخ</th>
+      </tr>
+    </thead>
+    <tbody id="ordersTable">
+    </tbody>
+  </table>
+  </div>
 </div>
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
@@ -222,7 +242,8 @@ th{
 
   const table = document.getElementById("productsTable");
   const countEl = document.getElementById("productCount");
-
+  const ordersTable = document.getElementById("ordersTable");
+  const ordersCount = document.getElementById("ordersCount");
   async function loadProducts() {
     table.innerHTML = "";
     const snapshot = await getDocs(collection(db, "products"));
@@ -262,6 +283,44 @@ th{
   }
 
   loadProducts();
+  async function loadOrders() {
+  ordersTable.innerHTML = "";
+
+  const snapshot = await getDocs(collection(db, "orders"));
+  ordersCount.textContent = snapshot.size;
+
+  snapshot.forEach((item) => {
+    const data = item.data();
+
+    const row = `
+<tr>
+  <td>${data.fullName || "-"}</td>
+  <td>${data.company || "-"}</td>
+  <td>${data.phone || "-"}</td>
+  <td>${data.device || "-"}</td>
+  <td>${data.createdAt ? new Date(data.createdAt.seconds * 1000).toLocaleDateString() : "-"}</td>
+</tr>
+`;
+
+    ordersTable.innerHTML += row;
+  });
+}
+
+loadOrders();
 </script>
+
+<script>
+if(sessionStorage.getItem("isLoggedIn") !== "true"){
+  window.location.href = "login.html";
+}
+</script>
+
+<script>
+function logout(){
+  sessionStorage.removeItem("isLoggedIn");
+  window.location.href = "login.html";
+}
+</script>
+
 </body>
 </html>
