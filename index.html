@@ -7,6 +7,9 @@
 <meta name="author" content="MegStores">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<meta name="language" content="Arabic">
+<meta name="revisit-after" content="7 days">
 <title>MegStores | Industrial Solutions</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -52,7 +55,35 @@ body{
   font-weight:900;
   font-size:22px;
 }
+.menu-toggle{
+  display:none;
+  font-size:26px;
+  color:white;
+  cursor:pointer;
+}
 
+@media(max-width:768px){
+
+.menu-toggle{
+  display:block;
+}
+
+.nav-links{
+  position:absolute;
+  top:70px;
+  right:0;
+  background:var(--primary-color);
+  width:100%;
+  flex-direction:column;
+  text-align:center;
+  display:none;
+}
+
+.nav-links.active{
+  display:flex;
+}
+
+}
 .nav-links{
   list-style:none;
   display:flex;
@@ -80,7 +111,7 @@ body{
 /* ================== HERO ================== */
 .hero{
   height:100vh;
-  background:url('https://images.unsplash.com/photo-1581091012184-5c3a4c5d6d6e') center/cover no-repeat;
+  background:url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?q=80&w=2070') center/cover no-repeat;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -195,11 +226,12 @@ html{
   object-fit:cover;
 }
 
+
 .product-card h3{
   padding:20px;
   color:var(--primary-color);
+  font-size:18px;
 }
-
 .product-btn{
   display:inline-block;
   margin-bottom:20px;
@@ -497,8 +529,9 @@ html{
 
 <!-- ================= NAVBAR ================= -->
 <nav class="navbar">
+  
   <div class="logo">MegStores</div>
-
+<div class="menu-toggle">☰</div>
   <ul class="nav-links">
 <li><a href="#">الرئيسية</a></li>
 <li><a href="#products">المنتجات</a></li>
@@ -776,19 +809,24 @@ import {
     querySnapshot.forEach((doc) => {
       const data = doc.data();
 
-      const card = `
-        <div class="product-card">
-          <img src="${data.image}" alt="">
-          <h3>${data.name}</h3>
-          <a href="#" class="product-btn">عرض التفاصيل</a>
-        </div>
-      `;
+const card = `
+<div class="product-card">
+  <img src="${data.image}" alt="${data.name}">
+  <h3>${data.name}</h3>
 
+  <a href="product.html?id=${doc.id}" class="product-btn">
+  عرض التفاصيل
+  </a>
+
+</div>
+`;
       productsGrid.innerHTML += card;
     });
   }
 
-  loadProducts();
+  loadProducts().catch(()=>{
+  console.log("Firestore not loaded");
+});
 
   const form = document.getElementById("quoteForm");
 
@@ -840,6 +878,13 @@ function applyScrollAnimation() {
 window.addEventListener("scroll", applyScrollAnimation);
 window.addEventListener("load", applyScrollAnimation);
 </script>
+<script>
+const toggle = document.querySelector(".menu-toggle");
+const nav = document.querySelector(".nav-links");
 
+toggle.onclick = () =>{
+  nav.classList.toggle("active");
+}
+</script>
 </body>
 </html>
