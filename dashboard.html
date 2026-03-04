@@ -177,27 +177,41 @@ color:var(--primary);
 
 <script type="module">
 
-import { db } from "./firebase-config.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 
-import {
+import { 
+getFirestore,
 collection,
 getDocs
 } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-const productCount = document.getElementById("productCount");
-const ordersCount = document.getElementById("ordersCount");
 
-async function loadCounts(){
+const firebaseConfig = {
+apiKey: "AIzaSyCCFdsyGBaoWc5F7djDH7OP6kX0fLWVJ20",
+authDomain: "megstores-faad1.firebaseapp.com",
+projectId: "megstores-faad1",
+storageBucket: "megstores-faad1.firebasestorage.app",
+messagingSenderId: "576608083509",
+appId: "1:576608083509:web:195e58b75446a5caee1b7c",
+measurementId: "G-GSBML886WV"
+};
 
-const productsSnapshot = await getDocs(collection(db,"products"));
-const ordersSnapshot = await getDocs(collection(db,"orders"));
 
-productCount.textContent = productsSnapshot.size;
-ordersCount.textContent = ordersSnapshot.size;
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+async function loadStats(){
+
+const products = await getDocs(collection(db,"products"));
+const orders = await getDocs(collection(db,"orders"));
+
+document.getElementById("productCount").textContent = products.size;
+document.getElementById("ordersCount").textContent = orders.size;
 
 }
 
-loadCounts();
+loadStats();
 
 </script>
 
