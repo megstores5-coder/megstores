@@ -4,152 +4,294 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>إضافة منتج | MegStores</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
+
 :root{
-  --primary:#0F172A;
-  --accent:#F97316;
-  --light:#F8FAFC;
+--primary:#0F172A;
+--accent:#F97316;
+--light:#F8FAFC;
+--text:#334155;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
 body{
-  font-family:'Cairo',sans-serif;
-  background:var(--light);
-  padding:40px;
+font-family:'Cairo',sans-serif;
+background:var(--light);
+display:flex;
+min-height:100vh;
 }
 
+/* ===== SIDEBAR ===== */
+
+.sidebar{
+width:240px;
+background:var(--primary);
+color:#fff;
+padding:30px 20px;
+}
+
+.sidebar h2{
+margin-bottom:40px;
+font-weight:900;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar li{
+margin-bottom:20px;
+}
+
+.sidebar a{
+text-decoration:none;
+color:#fff;
+font-weight:600;
+transition:.3s;
+}
+
+.sidebar a:hover{
+color:var(--accent);
+}
+
+.sidebar a.active{
+color:var(--accent);
+font-weight:800;
+}
+
+/* ===== MAIN ===== */
+
+.main{
+flex:1;
+padding:40px;
+}
+
+/* ===== FORM ===== */
+
 .container{
-  max-width:600px;
-  margin:auto;
-  background:#fff;
-  padding:30px;
-  border-radius:10px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.05);
+max-width:600px;
+background:#fff;
+padding:30px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
 }
 
 h2{
-  margin-bottom:20px;
-  color:var(--primary);
+margin-bottom:20px;
+color:var(--primary);
 }
 
-input{
-  width:100%;
-  padding:12px;
-  margin-bottom:15px;
-  border:1px solid #ddd;
-  border-radius:6px;
+input, textarea{
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border:1px solid #ddd;
+border-radius:6px;
+font-family:'Cairo';
 }
 
 button{
-  width:100%;
-  padding:12px;
-  border:none;
-  border-radius:6px;
-  background:var(--accent);
-  color:#fff;
-  font-weight:bold;
-  cursor:pointer;
+width:100%;
+padding:12px;
+border:none;
+border-radius:6px;
+background:var(--accent);
+color:#fff;
+font-weight:bold;
+cursor:pointer;
 }
 
 button:hover{
-  opacity:.9;
+opacity:.9;
 }
 
-.page-header{
-  display:flex;
-  justify-content:flex-start;
-  margin-bottom:20px;
-}
-
-.back-btn{
-  background:var(--primary);
-  border:none;
-  color:#fff;
-  padding:10px 18px;
-  border-radius:8px;
-  cursor:pointer;
-  font-weight:bold;
-  transition:0.3s;
-}
-
-.back-btn:hover{
-  background:var(--accent);
-}
 </style>
 </head>
 
 <body>
 
-<div class="page-header">
-  <button onclick="goBack()" class="back-btn">
-    ← رجوع للوحة التحكم
-  </button>
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2>MegStores</h2>
+
+<ul>
+
+<li>
+<a href="dashboard.html">لوحة التحكم</a>
+</li>
+
+<li>
+<a href="products.html">المنتجات</a>
+</li>
+
+<li>
+<a href="add-product.html" class="active">إضافة منتج</a>
+</li>
+
+<li>
+<a href="orders.html">الطلبات</a>
+</li>
+
+<li>
+<a href="#" onclick="logout()">تسجيل خروج</a>
+</li>
+
+</ul>
+
 </div>
+
+<!-- MAIN -->
+
+<div class="main">
 
 <div class="container">
 
-  <h2>إضافة منتج جديد</h2>
+<h2>إضافة منتج جديد</h2>
 
-  <input type="text" id="name" placeholder="اسم المنتج">
-  <input type="number" id="price" placeholder="السعر">
-  <textarea id="description" placeholder="وصف المنتج"
-    style="width:100%;padding:12px;margin-bottom:15px;border:1px solid #ddd;border-radius:6px;"></textarea>
-  <input type="text" id="image" placeholder="رابط صورة المنتج">
+<input type="text" id="name" placeholder="اسم المنتج">
 
-  <button onclick="addProduct()">حفظ المنتج</button>
+<input type="number" id="price" placeholder="السعر">
+
+<textarea id="description" placeholder="وصف المنتج"></textarea>
+
+<input type="text" id="image" placeholder="رابط صورة المنتج">
+
+<button onclick="addProduct()">حفظ المنتج</button>
 
 </div>
 
+</div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCCFdsyGBaoWc5F7djDH7OP6kX0fLWVJ20",
-    authDomain: "megstores-faad1.firebaseapp.com",
-    projectId: "megstores-faad1",
-    storageBucket: "megstores-faad1.firebasestorage.app",
-    messagingSenderId: "576608083509",
-    appId: "1:576608083509:web:195e58b75446a5caee1b7c",
-    measurementId: "G-GSBML886WV"
-  };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+import {
+getFirestore,
+collection,
+addDoc,
+doc,
+getDoc,
+updateDoc
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+apiKey: "AIzaSyCCFdsyGBaoWc5F7djDH7OP6kX0fLWVJ20",
+authDomain: "megstores-faad1.firebaseapp.com",
+projectId: "megstores-faad1",
+storageBucket: "megstores-faad1.firebasestorage.app",
+messagingSenderId: "576608083509",
+appId: "1:576608083509:web:195e58b75446a5caee1b7c",
+measurementId: "G-GSBML886WV"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+/* ===== قراءة id من الرابط ===== */
+
+const params = new URLSearchParams(window.location.search);
+const productId = params.get("id");
+
+
+/* ===== تحميل بيانات المنتج للتعديل ===== */
+
+if(productId){
+
+document.querySelector("h2").innerText = "تعديل المنتج";
+
+const productRef = doc(db,"products",productId);
+const productSnap = await getDoc(productRef);
+
+if(productSnap.exists()){
+
+const data = productSnap.data();
+
+document.getElementById("name").value = data.name;
+document.getElementById("price").value = data.price;
+document.getElementById("description").value = data.description;
+document.getElementById("image").value = data.image;
+
+}
+
+}
+
+
+/* ===== حفظ المنتج ===== */
 
 window.addProduct = async function(){
-  const name = document.getElementById("name").value;
-  const price = document.getElementById("price").value;
-  const description = document.getElementById("description").value;
-  const image = document.getElementById("image").value;
 
-  if(!name || !price || !description || !image){
-    alert("اكمل البيانات");
-    return;
-  }
+const name = document.getElementById("name").value;
+const price = document.getElementById("price").value;
+const description = document.getElementById("description").value;
+const image = document.getElementById("image").value;
 
-  await addDoc(collection(db, "products"), {
-    name: name,
-    price: price,
-    description: description,
-    image: image
-  });
+if(!name || !price || !description || !image){
 
-  alert("تم إضافة المنتج بنجاح 🔥");
-  window.location.href = "dashboard.html";
+alert("اكمل البيانات");
+return;
+
 }
 
-window.goBack = function(){
-  window.location.href = "dashboard.html";
+if(productId){
+
+await updateDoc(doc(db,"products",productId),{
+name,
+price,
+description,
+image
+});
+
+alert("تم تعديل المنتج بنجاح ✏️");
+
+}else{
+
+await addDoc(collection(db,"products"),{
+name,
+price,
+description,
+image
+});
+
+alert("تم إضافة المنتج بنجاح 🔥");
+
+}
+
+window.location.href="products.html";
+
 }
 
 </script>
+
 <script>
+
 if(sessionStorage.getItem("isLoggedIn") !== "true"){
-  window.location.href = "login.html";
+
+window.location.href="login.html";
+
 }
+
+function logout(){
+
+sessionStorage.removeItem("isLoggedIn");
+
+window.location.href="login.html";
+
+}
+
 </script>
+
 </body>
 </html>
