@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المنتجات | MegStores</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--primary:#0F172A;
+--accent:#F97316;
+--light:#F8FAFC;
+--text:#334155;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Cairo',sans-serif;
+background:var(--light);
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:240px;
+background:var(--primary);
+color:#fff;
+padding:30px 20px;
+}
+
+.sidebar h2{
+margin-bottom:40px;
+font-weight:900;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar li{
+margin-bottom:20px;
+}
+
+.sidebar a{
+text-decoration:none;
+color:#fff;
+transition:.3s;
+font-weight:600;
+display:block;
+padding:6px 0;
+}
+
+.sidebar a:hover{
+color:var(--accent);
+}
+
+.sidebar a.active{
+color:var(--accent);
+font-weight:800;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+padding:40px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.topbar h1{
+font-size:26px;
+color:var(--primary);
+}
+
+.add-btn{
+background:var(--accent);
+color:#fff;
+padding:10px 18px;
+border-radius:6px;
+text-decoration:none;
+font-weight:700;
+}
+
+/* TABLE */
+
+.table-container{
+background:#fff;
+padding:25px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th, td{
+padding:12px;
+text-align:right;
+border-bottom:1px solid #eee;
+}
+
+th{
+background:#f1f5f9;
+}
+
+.product-img{
+width:60px;
+border-radius:6px;
+}
+
+.delete-btn{
+background:#ef4444;
+color:#fff;
+border:none;
+padding:6px 12px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.edit-btn{
+background:#0ea5e9;
+color:#fff;
+border:none;
+padding:6px 12px;
+border-radius:6px;
+cursor:pointer;
+margin-left:5px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2>MegStores</h2>
+
+<ul>
+
+<li><a href="dashboard.html">لوحة التحكم</a></li>
+<li><a href="products.html" class="active">المنتجات</a></li>
+<li><a href="add-product.html">إضافة منتج</a></li>
+<li><a href="orders.html">الطلبات</a></li>
+
+<li>
+<a href="#" onclick="logout()">تسجيل خروج</a>
+</li>
+
+</ul>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<h1>إدارة المنتجات</h1>
+
+<a href="add-product.html" class="add-btn">
+إضافة منتج
+</a>
+
+</div>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+<th>الصورة</th>
+<th>الاسم</th>
+<th>السعر</th>
+<th>التحكم</th>
+</tr>
+
+</thead>
+
+<tbody id="productsTable">
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+getDocs,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+apiKey: "AIzaSyCCFdsyGBaoWc5F7djDH7OP6kX0fLWVJ20",
+authDomain: "megstores-faad1.firebaseapp.com",
+projectId: "megstores-faad1",
+storageBucket: "megstores-faad1.firebasestorage.app",
+messagingSenderId: "576608083509",
+appId: "1:576608083509:web:195e58b75446a5caee1b7c",
+measurementId: "G-GSBML886WV"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const table = document.getElementById("productsTable");
+
+async function loadProducts(){
+
+table.innerHTML="";
+
+const snapshot = await getDocs(collection(db,"products"));
+
+if(snapshot.empty){
+table.innerHTML = `
+<tr>
+<td colspan="4" style="text-align:center;padding:20px;">
+لا توجد منتجات حالياً
+</td>
+</tr>
+`;
+return;
+}
+
+snapshot.forEach(item=>{
+
+const data = item.data();
+
+const row = `
+<tr>
+
+<td>
+<img src="${data.image}" class="product-img">
+</td>
+
+<td>${data.name}</td>
+
+<td>${data.price} جنيه</td>
+
+<td>
+
+<button class="edit-btn" onclick="editProduct('${item.id}')">
+تعديل
+</button>
+
+<button class="delete-btn" data-id="${item.id}">
+حذف
+</button>
+
+</td>
+
+</tr>
+`;
+
+table.innerHTML += row;
+
+});
+
+document.querySelectorAll(".delete-btn").forEach(btn=>{
+
+btn.addEventListener("click",async()=>{
+
+const id = btn.dataset.id;
+
+if(confirm("هل تريد حذف المنتج؟")){
+
+await deleteDoc(doc(db,"products",id));
+
+loadProducts();
+
+}
+
+});
+
+});
+
+}
+
+loadProducts();
+
+</script>
+
+<script>
+
+if(sessionStorage.getItem("isLoggedIn") !== "true"){
+window.location.href = "login.html";
+}
+
+function logout(){
+sessionStorage.removeItem("isLoggedIn");
+window.location.href = "login.html";
+}
+window.editProduct = function(id){
+window.location.href = "add-product.html?id=" + id;
+}
+</script>
+
+</body>
+</html>

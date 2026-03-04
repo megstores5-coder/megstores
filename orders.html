@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الطلبات | MegStores</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+--primary:#0F172A;
+--accent:#F97316;
+--light:#F8FAFC;
+--text:#334155;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Cairo',sans-serif;
+background:var(--light);
+display:flex;
+min-height:100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:240px;
+background:var(--primary);
+color:#fff;
+padding:30px 20px;
+}
+
+.sidebar h2{
+margin-bottom:40px;
+font-weight:900;
+}
+
+.sidebar ul{
+list-style:none;
+}
+
+.sidebar li{
+margin-bottom:20px;
+}
+
+.sidebar a{
+text-decoration:none;
+color:#fff;
+transition:.3s;
+font-weight:600;
+display:block;
+padding:6px 0;
+}
+
+.sidebar a:hover{
+color:var(--accent);
+}
+
+.sidebar a.active{
+color:var(--accent);
+font-weight:800;
+}
+/* MAIN */
+
+.main{
+flex:1;
+padding:40px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.topbar h1{
+font-size:26px;
+color:var(--primary);
+}
+
+/* TABLE */
+
+.table-container{
+background:#fff;
+padding:25px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th, td{
+padding:12px;
+text-align:right;
+border-bottom:1px solid #eee;
+}
+
+th{
+background:#f1f5f9;
+}
+
+.delete-btn{
+background:#ef4444;
+color:#fff;
+border:none;
+padding:6px 12px;
+border-radius:6px;
+cursor:pointer;
+font-size:13px;
+}
+
+.delete-btn:hover{
+opacity:.8;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<h2>MegStores</h2>
+
+<ul>
+
+
+<li><a href="dashboard.html">لوحة التحكم</a></li>
+<li><a href="products.html">المنتجات</a></li>
+<li><a href="add-product.html">إضافة منتج</a></li>
+<li><a href="orders.html" class="active">الطلبات</a></li>
+<li>
+<a href="#" onclick="logout()">تسجيل خروج</a>
+</li>
+
+</ul>
+
+</div>
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+<h1>إدارة الطلبات</h1>
+</div>
+
+<div class="table-container">
+
+<table>
+
+<thead>
+<tr>
+<th>الاسم</th>
+<th>الشركة</th>
+<th>الموبايل</th>
+<th>الجهاز</th>
+<th>التفاصيل</th>
+<th>التاريخ</th>
+<th>التحكم</th>
+</tr>
+</thead>
+
+<tbody id="ordersTable">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+
+import {
+getFirestore,
+collection,
+onSnapshot,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+apiKey: "AIzaSyCCFdsyGBaoWc5F7djDH7OP6kX0fLWVJ20",
+authDomain: "megstores-faad1.firebaseapp.com",
+projectId: "megstores-faad1",
+storageBucket: "megstores-faad1.firebasestorage.app",
+messagingSenderId: "576608083509",
+appId: "1:576608083509:web:195e58b75446a5caee1b7c",
+measurementId: "G-GSBML886WV"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+
+ const table = document.getElementById("ordersTable");
+
+function loadOrders(){
+
+const ordersRef = collection(db,"orders");
+
+onSnapshot(ordersRef,(snapshot)=>{
+
+table.innerHTML="";
+if(snapshot.empty){
+table.innerHTML = `
+<tr>
+<td colspan="6" style="text-align:center;padding:20px;">
+لا توجد طلبات حالياً
+</td>
+</tr>
+`;
+return;
+}
+
+const orders=[];
+
+snapshot.forEach(item=>{
+orders.push({
+id:item.id,
+...item.data()
+});
+});
+
+orders.sort((a,b)=>{
+return (b.createdAt?.seconds||0)-(a.createdAt?.seconds||0);
+});
+
+orders.forEach(order=>{
+
+let date="-";
+
+if(order.createdAt && order.createdAt.toDate){
+date = order.createdAt.toDate().toLocaleDateString("ar-EG");
+}
+
+const row=`
+<tr>
+<td>${order.fullName||"-"}</td>
+<td>${order.company||"-"}</td>
+<td>${order.phone||"-"}</td>
+<td>${order.device||"-"}</td>
+<td>${order.details||"-"}</td>
+<td>${date}</td>
+<td>
+<button class="delete-btn" data-id="${order.id}">
+حذف
+</button>
+</td>
+</tr>
+`;
+
+table.innerHTML+=row;
+
+});
+
+document.querySelectorAll(".delete-btn").forEach(btn=>{
+btn.addEventListener("click",async()=>{
+const id=btn.dataset.id;
+if(confirm("هل تريد حذف الطلب؟")){
+await deleteDoc(doc(db,"orders",id));
+}
+});
+});
+
+});
+
+}
+
+loadOrders();
+
+</script>
+
+<script>
+
+if(sessionStorage.getItem("isLoggedIn") !== "true"){
+window.location.href = "login.html";
+}
+
+function logout(){
+sessionStorage.removeItem("isLoggedIn");
+window.location.href = "login.html";
+}
+
+</script>
+
+</body>
+</html>
