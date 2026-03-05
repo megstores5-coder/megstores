@@ -1,61 +1,357 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <title>تفاصيل المنتج</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 
 <style>
 
 body{
 font-family:'Cairo',sans-serif;
-background:#F8FAFC;
-padding:40px;
+background:#F1F5F9;
+margin:0;
 }
+
+/* HEADER */
+
+.header{
+background:#0F172A;
+color:white;
+padding:15px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-size:20px;
+font-weight:900;
+}
+
+.back-btn{
+background:#F97316;
+color:white;
+padding:8px 15px;
+border-radius:6px;
+text-decoration:none;
+font-weight:700;
+}
+
+/* PRODUCT PAGE */
 
 .container{
-max-width:800px;
-margin:auto;
+max-width:1000px;
+margin:60px auto;
+padding:30px;
 background:white;
-padding:40px;
-border-radius:10px;
-box-shadow:0 10px 30px rgba(0,0,0,0.05);
+border-radius:12px;
+box-shadow:0 15px 40px rgba(0,0,0,0.08);
+display:flex;
+gap:40px;
+align-items:center;
 }
 
-img{
+.product-image{
+flex:1;
+}
+
+.product-image img{
 width:100%;
-border-radius:8px;
-margin-bottom:20px;
+border-radius:10px;
 }
 
-h1{
+.product-info{
+flex:1;
+}
+
+.product-info h1{
 margin-bottom:10px;
+color:#0F172A;
 }
 
 .price{
 color:#F97316;
-font-size:20px;
-margin-bottom:20px;
+font-size:22px;
 font-weight:700;
+margin-bottom:20px;
+}
+
+.desc{
+color:#475569;
+line-height:1.8;
+}
+
+/* CONTACT */
+
+.contact{
+padding:80px 8%;
+text-align:center;
+background:white;
+}
+
+.contact-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+margin-top:40px;
+}
+
+.contact-card{
+background:#F1F5F9;
+padding:20px;
+border-radius:8px;
+}
+
+.contact-card a{
+color:#F97316;
+text-decoration:none;
+font-weight:bold;
+}
+
+/* MAP */
+
+.map{
+margin-top:40px;
+}
+
+.map iframe{
+border-radius:8px;
+}
+
+/* FOOTER */
+
+.footer{
+background:#0F172A;
+color:white;
+padding:40px 8% 20px;
+margin-top:60px;
+}
+
+.footer-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:30px;
+}
+
+.footer-col h3,
+.footer-col h4{
+margin-bottom:10px;
+}
+
+.footer-bottom{
+text-align:center;
+margin-top:20px;
+border-top:1px solid rgba(255,255,255,0.2);
+padding-top:10px;
+font-size:13px;
+}
+
+/* MOBILE */
+
+@media(max-width:800px){
+
+.container{
+flex-direction:column;
+text-align:center;
+}
+
+}
+
+
+.page{
+display:flex;
+gap:30px;
+max-width:1200px;
+margin:20px auto;
+padding:0 20px;
+}
+
+.sidebar{
+width:700px;
+height:500px;
+overflow-y:auto;
+padding-right:5px;
+}
+
+.related-product{
+background:white;
+border-radius:8px;
+padding:10px;
+margin-bottom:15px;
+box-shadow:0 5px 15px rgba(0,0,0,0.05);
+text-align:center;
+}
+
+.related-product img{
+width:100%;
+height:120px;
+object-fit:cover;
+border-radius:6px;
+}
+
+.related-product h4{
+font-size:14px;
+margin:10px 0;
+}
+
+.related-product a{
+text-decoration:none;
+color:#F97316;
+font-weight:bold;
+font-size:13px;
+}
+
+@media(max-width:900px){
+
+.page{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+}
+
 }
 
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<!-- HEADER -->
 
-<img id="productImage">
+<div class="header">
+<div class="logo">MegStores</div>
 
-<h1 id="productName"></h1>
+<a href="index.html" class="back-btn">
+رجوع الرئيسية
+</a>
+</div>
 
-<div class="price" id="productPrice"></div>
+<!-- PRODUCT -->
 
-<p id="productDescription"></p>
+<div class="page">
+
+<div class="sidebar">
+
+<h3 style="margin-bottom:20px">منتجات أخرى</h3>
+
+<div id="relatedProducts"></div>
 
 </div>
+
+<div class="container">
+
+<div class="product-image">
+<img id="productImage">
+</div>
+
+<div class="product-info">
+<h1 id="productName"></h1>
+<div class="price" id="productPrice"></div>
+<p class="desc" id="productDescription"></p>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CONTACT -->
+
+<section class="contact">
+
+<h2>تواصل معنا</h2>
+
+<div class="contact-grid">
+
+<div class="contact-card">
+<h3>📱 الموبايل</h3>
+<a href="tel:01095720901">01095720901</a>
+</div>
+
+<div class="contact-card">
+<h3>🟢 واتساب</h3>
+<a href="https://wa.me/201095720901" target="_blank">
+تواصل عبر واتساب
+</a>
+</div>
+
+<div class="contact-card">
+<h3>📧 البريد الإلكتروني</h3>
+<a href="mailto:megstores5@gmail.com">
+megstores5@gmail.com
+</a>
+</div>
+
+
+      <div class="contact-card">
+        <h3>🔵 صفحة الفيسبوك</h3>
+        <a href="https://www.facebook.com/share/17Mnd1wKZh/" target="_blank">
+          زيارة الصفحة
+        </a>
+      </div>
+</div>
+
+</section>
+
+<!-- MAP -->
+
+<!-- ================= MAP ================= -->
+<section class="map">
+  <h3 style="text-align:center; margin-bottom:10px; color:var(--primary-color)">
+    📍 موقع MegStores – الاسكندرية
+  </h3>
+
+  <iframe
+    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d68349.0987106449!2d29.918224!3d31.220666!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14f5c4b0cae94f77%3A0x1718b4ea1b594d4c!2z7Iug7J2YbCB2LHZhNmD2Lkg2KfZhNi02YjYp9mF!5e0!3m2!1sar!2seg!4v1709588250000!5m2!1sar!2seg"
+    width="100%"
+    height="200"
+    style="border:0;"
+    allowfullscreen=""
+    loading="lazy">
+  </iframe>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="footer">
+
+<div class="footer-container">
+
+<div class="footer-col">
+<h3>MegStores</h3>
+<p>
+حلول متكاملة لمعامل الخرسانة والأسفلت
+</p>
+</div>
+
+<div class="footer-col">
+<h4>روابط</h4>
+<p><a href="index.html" style="color:white">الرئيسية</a></p>
+<p><a href="index.html#products" style="color:white">المنتجات</a></p>
+</div>
+
+<div class="footer-col">
+<h4>تواصل</h4>
+<p>📱 01095720901</p>
+<p>📧 megstores5@gmail.com</p>
+<p>📍 الاسكندرية</p>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+© 2026 MegStores
+</div>
+
+</footer>
 
 <script type="module">
 
@@ -65,10 +361,11 @@ import { initializeApp } from
 import { 
 getFirestore,
 doc,
-getDoc
+getDoc,
+collection,
+getDocs
 } from 
 "https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
-
 
 const firebaseConfig = {
 apiKey: "AIzaSyCCFdsyGBaoWc5F7djDH7OP6kX0fLWVJ20",
@@ -81,7 +378,6 @@ appId: "1:576608083509:web:195e58b75446a5caee1b7c"
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
@@ -97,14 +393,60 @@ const data = docSnap.data();
 
 document.getElementById("productImage").src = data.image;
 document.getElementById("productName").innerText = data.name;
-document.getElementById("productPrice").innerText = "السعر: " + data.price + " جنيه";
-document.getElementById("productDescription").innerText = data.description;
+document.getElementById("productPrice").innerText =
+"السعر: " + data.price + " جنيه";
+document.getElementById("productDescription").innerText =
+data.description;
 
 }
+
+}
+
+async function loadRelated(){
+
+const container = document.getElementById("relatedProducts");
+
+const snapshot = await getDocs(collection(db,"products"));
+
+let products = [];
+
+snapshot.forEach((doc)=>{
+products.push({
+id: doc.id,
+...doc.data()
+});
+});
+
+/* خلط المنتجات عشوائي */
+
+products.sort(()=> Math.random() - 0.5);
+
+/* عرض أول 6 فقط */
+
+products.slice(0,6).forEach((product)=>{
+
+const card = `
+<div class="related-product">
+
+<img src="${product.image}">
+
+<h4>${product.name}</h4>
+
+<a href="product.html?id=${product.id}">
+عرض
+</a>
+
+</div>
+`;
+
+container.innerHTML += card;
+
+});
 
 }
 
 loadProduct();
+loadRelated();
 
 </script>
 
