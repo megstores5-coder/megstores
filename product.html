@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>تفاصيل المنتج</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+font-family:'Cairo',sans-serif;
+background:#F8FAFC;
+padding:40px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+background:white;
+padding:40px;
+border-radius:10px;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+img{
+width:100%;
+border-radius:8px;
+margin-bottom:20px;
+}
+
+h1{
+margin-bottom:10px;
+}
+
+.price{
+color:#F97316;
+font-size:20px;
+margin-bottom:20px;
+font-weight:700;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<img id="productImage">
+
+<h1 id="productName"></h1>
+
+<div class="price" id="productPrice"></div>
+
+<p id="productDescription"></p>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from 
+"https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+
+import { 
+getFirestore,
+doc,
+getDoc
+} from 
+"https://www.gstatic.com/firebasejs/12.10.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+apiKey: "AIzaSyCCFdsyGBaoWc5F7djDH7OP6kX0fLWVJ20",
+authDomain: "megstores-faad1.firebaseapp.com",
+projectId: "megstores-faad1",
+storageBucket: "megstores-faad1.firebasestorage.app",
+messagingSenderId: "576608083509",
+appId: "1:576608083509:web:195e58b75446a5caee1b7c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+async function loadProduct(){
+
+const docRef = doc(db,"products",id);
+const docSnap = await getDoc(docRef);
+
+if(docSnap.exists()){
+
+const data = docSnap.data();
+
+document.getElementById("productImage").src = data.image;
+document.getElementById("productName").innerText = data.name;
+document.getElementById("productPrice").innerText = "السعر: " + data.price + " جنيه";
+document.getElementById("productDescription").innerText = data.description;
+
+}
+
+}
+
+loadProduct();
+
+</script>
+
+</body>
+</html>
